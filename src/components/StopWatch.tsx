@@ -3,9 +3,16 @@ import React, { useState, useEffect } from 'react';
 interface StopwatchProps {
   start: boolean;
   stop: boolean;
+  stopLimit: number;
+  stopFunc(): void;
 }
 
-const Stopwatch: React.FC<StopwatchProps> = ({ start, stop }) => {
+const Stopwatch: React.FC<StopwatchProps> = ({
+  start,
+  stop,
+  stopLimit,
+  stopFunc,
+}) => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
@@ -16,9 +23,10 @@ const Stopwatch: React.FC<StopwatchProps> = ({ start, stop }) => {
       setMinutes(minutes + 1);
       setSeconds(0);
     }
-    if (minutes >= 3) {
+    if (minutes >= stopLimit) {
       clearInterval(interval);
       setIsRunning(false);
+      stopFunc();
     } else {
       if (isRunning) {
         interval = window.setInterval(() => {

@@ -168,7 +168,12 @@ export const App: React.FC<Props> = (props) => {
           <>
             <GridOverlay active={activeGrid} />
 
-            <StopWatch start={recording} stop={!recording} />
+            <StopWatch
+              start={recording}
+              stop={!recording}
+              stopLimit={3}
+              stopFunc={stopRecording}
+            />
 
             {alertMessage != null && (
               <div className='alert-message'>{alertMessage}</div>
