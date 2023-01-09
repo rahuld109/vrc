@@ -141,3 +141,17 @@
   grid-column-start: 2;
   grid-column-end: 3;
 }
+
+@media (max-width: 750px) {
+  .video-container {
+    background-color: red;
+  }
+
+  .stopwatch-container {
+    left: 30%;
+  }
+
+  .grid-btn {
+    left: 70%;
+  }
+}
