@@ -136,8 +136,6 @@ export const App: React.FC<Props> = (props) => {
     }
     const avg = sum / (imageData.data.length / 4);
 
-    console.log(avg);
-
     if (isBrightnessLow(avg, LOW_BRIGHTNESS_THRESHOLD)) {
       setAlertMessage('Video is not bright enough');
     } else {
@@ -159,6 +157,18 @@ export const App: React.FC<Props> = (props) => {
 
     return () => clearInterval(interval);
   });
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.keyCode === 27 && recording) {
+        stopRecording();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [recording]);
 
   return (
     <main className='main-container'>
