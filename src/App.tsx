@@ -48,7 +48,7 @@ export const App: React.FC<Props> = (props) => {
 
   const handleStartWebcam = () => {
     navigator.mediaDevices
-      .getUserMedia({ video: true })
+      .getUserMedia({ video: true, audio: true })
       .then((stream) => {
         setStream(stream);
         if (videoRef.current) {
