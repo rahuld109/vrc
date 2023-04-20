@@ -6,6 +6,7 @@ export interface IRecorderContext {
   mediaType: string | null;
   mediaBlobUrl: string | null;
   timerDuration: number;
+  facingMode: 'user' | 'environment';
 }
 
 export const INITIAL_RECORDER_CONTEXT: IRecorderContext = {
@@ -14,6 +15,7 @@ export const INITIAL_RECORDER_CONTEXT: IRecorderContext = {
   mediaType: null,
   mediaBlobUrl: null,
   timerDuration: 120,
+  facingMode: 'user',
 };
 
 export const recorderMachine = createMachine({
@@ -32,7 +34,9 @@ export const recorderMachine = createMachine({
           navigator.mediaDevices
             .getUserMedia({
               audio: true,
-              video: true,
+              video: {
+                facingMode: ctx.facingMode,
+              },
             })
             .then((mediaStream) => {
               callback({

@@ -1,5 +1,5 @@
 import { useMachine } from '@xstate/react';
-import { Fragment, useEffect, useRef } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 
 import { recorderMachine } from '../../machines/recorderMachine';
 import TimerOverlay from '../Timer/Timer';
@@ -52,8 +52,6 @@ function VideoRecorder(props: IRecorderProps) {
       document.body.removeChild(a);
       URL.revokeObjectURL(machineState.context.mediaBlobUrl);
     }, 100);
-
-    console.log('here');
   };
 
   return (
