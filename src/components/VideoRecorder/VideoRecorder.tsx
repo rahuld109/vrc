@@ -23,21 +23,6 @@ function VideoRecorder(props: IRecorderProps) {
     },
   });
 
-  useEffect(() => {
-    let mediaStream: MediaStream | null;
-
-    if (machineState.context.stream && videoRef.current) {
-      mediaStream = machineState.context.stream;
-      videoRef.current.srcObject = machineState.context.stream;
-    }
-
-    return () => {
-      if (mediaStream) {
-        mediaStream.getTracks().forEach((track) => track.stop());
-      }
-    };
-  }, [machineState.context.stream]);
-
   const ejectHandler = () => {
     if (!machineState.context.mediaBlobUrl) return;
 
@@ -53,6 +38,22 @@ function VideoRecorder(props: IRecorderProps) {
       URL.revokeObjectURL(machineState.context.mediaBlobUrl);
     }, 100);
   };
+
+  useEffect(() => {
+    let mediaStream: MediaStream | null;
+
+    if (machineState.context.stream && videoRef.current) {
+      console.log('active stream --->', machineState.context.stream);
+      mediaStream = machineState.context.stream;
+      videoRef.current.srcObject = machineState.context.stream;
+    }
+
+    return () => {
+      if (mediaStream) {
+        mediaStream.getTracks().forEach((track) => track.stop());
+      }
+    };
+  }, [machineState.context.stream]);
 
   return (
     <Fragment>
