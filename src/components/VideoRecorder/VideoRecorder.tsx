@@ -9,15 +9,13 @@ import EjectImage from '/eject.png';
 import RepeatImage from '/repeat.png';
 
 interface IRecorderProps {
-  timeLimit: 120;
+  timeLimit: number;
 }
 
 function VideoRecorder(props: IRecorderProps) {
   const { timeLimit } = props;
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [machineState, send] = useMachine(recorderMachine, {
-    actions: {},
-    services: {},
     context: {
       timerDuration: timeLimit,
     },

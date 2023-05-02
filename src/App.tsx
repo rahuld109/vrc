@@ -8,7 +8,7 @@ const RecorderElement = lazy(
 function App() {
   return (
     <div className="App">
-      <RecorderElement timeLimit={120} />
+      <RecorderElement timeLimit={150} />
     </div>
   );
 }
