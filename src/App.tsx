@@ -1,16 +1,14 @@
 import './App.css';
-import { lazy, Suspense } from 'react';
+import { lazy } from 'react';
 
 const RecorderElement = lazy(
   () => import('./components/VideoRecorder/VideoRecorder')
 );
 
-function App() {
+export default function App() {
   return (
     <div className="App">
-      <RecorderElement timeLimit={150} />
+      <RecorderElement timeLimit={120} />
     </div>
   );
 }
-
-export default App;
