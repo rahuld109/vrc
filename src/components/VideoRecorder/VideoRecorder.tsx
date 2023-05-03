@@ -1,12 +1,19 @@
+import './video-recorder.css';
 import { useMachine } from '@xstate/react';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef } from 'react';
 
-import { recorderMachine } from '../../machines/recorderMachine';
+import {
+  IRecorderContext,
+  recorderMachine,
+} from '../../machines/recorderMachine';
 import TimerOverlay from '../Timer/Timer';
 import PlayImage from '/play.png';
 import StopImage from '/stop.png';
 import EjectImage from '/eject.png';
 import RepeatImage from '/repeat.png';
+import { AnyEventObject } from 'xstate';
+import { useAppDispatch } from '../../redux/hooks';
+import { addStream } from '../../redux/mediaSlice';
 
 interface IRecorderProps {
   timeLimit: number;
@@ -14,8 +21,15 @@ interface IRecorderProps {
 
 function VideoRecorder(props: IRecorderProps) {
   const { timeLimit } = props;
+  const dispatch = useAppDispatch();
+
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [machineState, send] = useMachine(recorderMachine, {
+    actions: {
+      addStream: (context: IRecorderContext, event: AnyEventObject) => {
+        dispatch(addStream(event.stream));
+      },
+    },
     context: {
       timerDuration: timeLimit,
     },
@@ -41,7 +55,6 @@ function VideoRecorder(props: IRecorderProps) {
     let mediaStream: MediaStream | null;
 
     if (machineState.context.stream && videoRef.current) {
-      console.log('active stream --->', machineState.context.stream);
       mediaStream = machineState.context.stream;
       videoRef.current.srcObject = machineState.context.stream;
     }

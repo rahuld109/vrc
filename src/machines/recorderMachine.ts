@@ -45,6 +45,12 @@ export const recorderMachine = createMachine({
             .catch((error) => {
               console.log('Webcamera error--->', error);
             });
+
+          return () => {
+            if (ctx.stream) {
+              ctx.stream.getTracks().forEach((track) => track.stop());
+            }
+          };
         },
       },
       on: {
@@ -54,9 +60,12 @@ export const recorderMachine = createMachine({
         },
         MEDIA_ACCESS_GRANTED: {
           target: 'idle',
-          actions: assign({
-            stream: (ctx, event) => event.stream,
-          }),
+          actions: [
+            assign({
+              stream: (ctx, event) => event.stream,
+            }),
+            'addStream',
+          ],
         },
       },
     },
