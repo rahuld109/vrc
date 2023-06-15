@@ -15,7 +15,7 @@ video.video__preview {
   height: 100%;
   width: 100%;
   pointer-events: none;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: inherit;
 }
 
@@ -78,6 +78,7 @@ button.red {
   video.video__preview {
     height: 100%;
     pointer-events: none;
+    object-fit: cover;
     background-color: var(--gray-13);
     object-fit: cover;
     border-radius: unset;
