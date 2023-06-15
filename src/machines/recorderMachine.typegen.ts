@@ -7,14 +7,12 @@ export interface Typegen0 {
   };
   invokeSrcNameMap: {};
   missingImplementations: {
-    actions: 'addStream';
+    actions: never;
     delays: never;
     guards: never;
     services: never;
   };
-  eventsCausingActions: {
-    addStream: 'MEDIA_ACCESS_GRANTED';
-  };
+  eventsCausingActions: {};
   eventsCausingDelays: {};
   eventsCausingGuards: {};
   eventsCausingServices: {};

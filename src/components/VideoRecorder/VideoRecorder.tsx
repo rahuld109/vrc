@@ -11,9 +11,6 @@ import PlayImage from '/play.png';
 import StopImage from '/stop.png';
 import EjectImage from '/eject.png';
 import RepeatImage from '/repeat.png';
-import { AnyEventObject } from 'xstate';
-import { useAppDispatch } from '../../redux/hooks';
-import { addStream } from '../../redux/mediaSlice';
 
 interface IRecorderProps {
   timeLimit: number;
@@ -21,15 +18,9 @@ interface IRecorderProps {
 
 function VideoRecorder(props: IRecorderProps) {
   const { timeLimit } = props;
-  const dispatch = useAppDispatch();
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [machineState, send] = useMachine(recorderMachine, {
-    actions: {
-      addStream: (context: IRecorderContext, event: AnyEventObject) => {
-        dispatch(addStream(event.stream));
-      },
-    },
     context: {
       timerDuration: timeLimit,
     },

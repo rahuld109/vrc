@@ -64,7 +64,6 @@ export const recorderMachine = createMachine({
             assign({
               stream: (ctx, event) => event.stream,
             }),
-            'addStream',
           ],
         },
       },
