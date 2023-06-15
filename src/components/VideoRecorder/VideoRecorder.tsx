@@ -61,7 +61,13 @@ function VideoRecorder(props: IRecorderProps) {
     <Fragment>
       <div className="video__wrapper">
         {!machineState.matches('stopped') && (
-          <video ref={videoRef} muted autoPlay className="video__preview" />
+          <video
+            ref={videoRef}
+            muted
+            autoPlay
+            playsInline
+            className="video__preview"
+          />
         )}
 
         <div className="video__controls">
