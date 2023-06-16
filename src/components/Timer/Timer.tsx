@@ -13,7 +13,7 @@ function TimerOverlay(props: ITimerOverlayProps) {
     .toString()
     .padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
 
-  return <div className="video__timer">{formattedTime}</div>;
+  return <div className="camera__timer">{formattedTime}</div>;
 }
 
 export default TimerOverlay;

@@ -6,7 +6,8 @@ export interface IRecorderContext {
   mediaType: string | null;
   mediaBlobUrl: string | null;
   timerDuration: number;
-  facingMode: 'user' | 'environment';
+  audioInput: MediaTrackConstraints;
+  videoInput: MediaTrackConstraints;
 }
 
 export const INITIAL_RECORDER_CONTEXT: IRecorderContext = {
@@ -15,7 +16,8 @@ export const INITIAL_RECORDER_CONTEXT: IRecorderContext = {
   mediaType: null,
   mediaBlobUrl: null,
   timerDuration: 120,
-  facingMode: 'user',
+  audioInput: { deviceId: 'default' },
+  videoInput: { deviceId: 'default', facingMode: 'user' },
 };
 
 export const recorderMachine = createMachine({
@@ -33,13 +35,13 @@ export const recorderMachine = createMachine({
           if (ctx.stream !== null) return;
           navigator.mediaDevices
             .getUserMedia({
-              audio: true,
-              video: { deviceId: 'default', facingMode: ctx.facingMode },
+              audio: ctx.audioInput,
+              video: ctx.videoInput,
             })
-            .then((mediaStream) => {
+            .then((stream) => {
               callback({
                 type: 'MEDIA_ACCESS_GRANTED',
-                stream: mediaStream,
+                stream: stream,
               });
             })
             .catch((error) => {
@@ -62,7 +64,8 @@ export const recorderMachine = createMachine({
           target: 'idle',
           actions: [
             assign({
-              stream: (ctx, event) => event.stream,
+              stream: (ctx, event) => event.stream || ctx.stream,
+              videoInput: (ctx, event) => event.videoInput || ctx.videoInput,
             }),
           ],
         },

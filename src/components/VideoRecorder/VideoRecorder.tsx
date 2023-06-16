@@ -11,6 +11,7 @@ import PlayImage from '/play.png';
 import StopImage from '/stop.png';
 import EjectImage from '/eject.png';
 import RepeatImage from '/repeat.png';
+import FlipImage from '/flip.png';
 
 interface IRecorderProps {
   timeLimit: number;
@@ -59,18 +60,59 @@ function VideoRecorder(props: IRecorderProps) {
 
   return (
     <Fragment>
-      <div className="video__wrapper">
+      <div className="camera__wrapper">
         {!machineState.matches('stopped') && (
           <video
             ref={videoRef}
             muted
             autoPlay
             playsInline
-            className="video__preview"
+            className={`camera__preview ${
+              machineState.context.videoInput.facingMode === 'user'
+                ? ''
+                : 'environment'
+            }`}
           />
         )}
 
-        <div className="video__controls">
+        <div className="camera__flip">
+          {machineState.matches('idle') && (
+            <button
+              type="button"
+              onClick={() => {
+                if (machineState.context.stream !== null) {
+                  machineState.context.stream
+                    .getTracks()
+                    .forEach((track) => track.stop());
+                }
+
+                const video: MediaTrackConstraints = {
+                  deviceId: machineState.context.videoInput.deviceId,
+                  facingMode:
+                    machineState.context.videoInput.facingMode === 'user'
+                      ? 'environment'
+                      : 'user',
+                };
+
+                navigator.mediaDevices
+                  .getUserMedia({
+                    audio: machineState.context.audioInput,
+                    video,
+                  })
+                  .then((stream) => {
+                    send('MEDIA_ACCESS_GRANTED', {
+                      stream: stream,
+                      videoInput: video,
+                    });
+                  });
+              }}
+            >
+              <img src={FlipImage} alt="start button" />
+            </button>
+          )}
+        </div>
+
+        <div className="camera__controls">
           {machineState.matches('idle') && (
             <button
               type="button"
