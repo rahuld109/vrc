@@ -78,9 +78,10 @@ button.red {
   video.video__preview {
     height: 100%;
     pointer-events: none;
-    object-fit: cover;
     background-color: var(--gray-13);
-    object-fit: cover;
     border-radius: unset;
+    object-fit: cover;
+    transform: scaleX(-1);
+    zoom: normal;
   }
 }
