@@ -34,7 +34,7 @@ export const recorderMachine = createMachine({
           navigator.mediaDevices
             .getUserMedia({
               audio: true,
-              video: { deviceId: 'default' },
+              video: { deviceId: 'default', facingMode: ctx.facingMode },
             })
             .then((mediaStream) => {
               callback({

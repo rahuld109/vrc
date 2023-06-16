@@ -1,14 +1,13 @@
 .video__wrapper {
+  position: relative;
   block-size: 600px;
+  aspect-ratio: var(--ratio-golden);
   max-height: 100%;
   max-width: 100%;
-  aspect-ratio: var(--ratio-golden);
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--gray-12);
-  border-radius: var(--radius-4);
 }
 
 video.video__preview {
@@ -16,7 +15,8 @@ video.video__preview {
   width: 100%;
   pointer-events: none;
   object-fit: contain;
-  border-radius: inherit;
+  transform: scaleX(-1);
+  zoom: normal;
 }
 
 .video__controls {
@@ -76,12 +76,6 @@ button.red {
   }
 
   video.video__preview {
-    height: 100%;
-    pointer-events: none;
-    background-color: var(--gray-13);
-    border-radius: unset;
-    object-fit: cover;
-    transform: scaleX(-1);
-    zoom: normal;
+    object-fit: unset;
   }
 }
