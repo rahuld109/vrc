@@ -43,6 +43,32 @@ function VideoRecorder(props: IRecorderProps) {
     }, 100);
   };
 
+  const flipHandler = () => {
+    if (machineState.context.stream !== null) {
+      machineState.context.stream.getTracks().forEach((track) => track.stop());
+    }
+
+    const video: MediaTrackConstraints = {
+      deviceId: machineState.context.videoInput.deviceId,
+      facingMode:
+        machineState.context.videoInput.facingMode === 'user'
+          ? 'environment'
+          : 'user',
+    };
+
+    navigator.mediaDevices
+      .getUserMedia({
+        audio: machineState.context.audioInput,
+        video,
+      })
+      .then((stream) => {
+        send('MEDIA_ACCESS_GRANTED', {
+          stream: stream,
+          videoInput: video,
+        });
+      });
+  };
+
   useEffect(() => {
     let mediaStream: MediaStream | null;
 
@@ -77,36 +103,7 @@ function VideoRecorder(props: IRecorderProps) {
 
         <div className="camera__flip">
           {machineState.matches('idle') && (
-            <button
-              type="button"
-              onClick={() => {
-                if (machineState.context.stream !== null) {
-                  machineState.context.stream
-                    .getTracks()
-                    .forEach((track) => track.stop());
-                }
-
-                const video: MediaTrackConstraints = {
-                  deviceId: machineState.context.videoInput.deviceId,
-                  facingMode:
-                    machineState.context.videoInput.facingMode === 'user'
-                      ? 'environment'
-                      : 'user',
-                };
-
-                navigator.mediaDevices
-                  .getUserMedia({
-                    audio: machineState.context.audioInput,
-                    video,
-                  })
-                  .then((stream) => {
-                    send('MEDIA_ACCESS_GRANTED', {
-                      stream: stream,
-                      videoInput: video,
-                    });
-                  });
-              }}
-            >
+            <button type="button" onClick={flipHandler}>
               <img src={FlipImage} alt="start button" />
             </button>
           )}
