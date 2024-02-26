@@ -19,7 +19,7 @@
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-basic-ssl": "^1.0.1",
     "@vitejs/plugin-react": "^3.1.0",
-    "open-props": "^1.6.16",
+    "open-props": "^1.6.19",
     "postcss-jit-props": "^1.0.12",
     "typescript": "^5.3.3",
     "vite": "^4.5.2"
